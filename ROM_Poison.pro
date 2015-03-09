@@ -13,8 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        Main_Window.cpp
+        Main_Window.cpp \
+    Corruptor_Settings.cpp
 
-HEADERS  += Main_Window.h
+HEADERS  += Main_Window.h \
+    Corruptor_Settings.h
 
-FORMS    += Main_Window.ui
+FORMS    += Main_Window.ui \
+    Corruptor_Settings.ui
