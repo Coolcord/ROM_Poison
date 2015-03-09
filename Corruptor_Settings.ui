@@ -7,19 +7,50 @@
     <x>0</x>
     <y>0</y>
     <width>302</width>
-    <height>281</height>
+    <height>325</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Corruptor Settings</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QHBoxLayout" name="layoutSettings">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <widget class="QPushButton" name="btnSaveSettings">
+       <property name="text">
+        <string>Save Settings</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnLoadSettings">
+       <property name="text">
+        <string>Load Settings</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="layoutOffsets">
+     <item>
+      <layout class="QHBoxLayout" name="layoutStartingOffset">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="lblStartingOffset">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -32,7 +63,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox">
+        <widget class="QSpinBox" name="sbStartingOffset">
          <property name="maximum">
           <number>255</number>
          </property>
@@ -44,9 +75,9 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="layoutEndingOffset">
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="lblEndingOffset">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -59,7 +90,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_2">
+        <widget class="QSpinBox" name="sbEndingOffset">
          <property name="maximum">
           <number>255</number>
          </property>
@@ -71,9 +102,9 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <layout class="QHBoxLayout" name="layoutCorruptEvery">
        <item>
-        <widget class="QLabel" name="label_7">
+        <widget class="QLabel" name="lblCorruptEvery">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -86,7 +117,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_7">
+        <widget class="QSpinBox" name="sbMinBytes">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -102,7 +133,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_8">
+        <widget class="QLabel" name="lblTo">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -118,7 +149,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_8">
+        <widget class="QSpinBox" name="sbMaxBytes">
          <property name="maximum">
           <number>255</number>
          </property>
@@ -128,7 +159,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_9">
+        <widget class="QLabel" name="lblBytes">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -158,18 +189,18 @@
     </spacer>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="layoutByteCorruption">
      <item>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="cbRandomByteCorruption">
        <property name="text">
         <string>Random Byte Corruption</string>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="layoutAdd">
        <item>
-        <widget class="QCheckBox" name="checkBox_2">
+        <widget class="QCheckBox" name="cbAdd">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -188,7 +219,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_3">
+        <widget class="QSpinBox" name="sbAdd">
          <property name="minimum">
           <number>-255</number>
          </property>
@@ -203,9 +234,9 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="layoutShiftLeft">
        <item>
-        <widget class="QCheckBox" name="checkBox_3">
+        <widget class="QCheckBox" name="cbShiftLeft">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -218,7 +249,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_4">
+        <widget class="QSpinBox" name="sbShiftLeft">
          <property name="minimum">
           <number>-8</number>
          </property>
@@ -233,16 +264,16 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <layout class="QHBoxLayout" name="layoutReplace">
        <item>
-        <widget class="QCheckBox" name="checkBox_4">
+        <widget class="QCheckBox" name="cbReplace">
          <property name="text">
           <string>Replace</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_5">
+        <widget class="QSpinBox" name="sbOldByte">
          <property name="maximum">
           <number>255</number>
          </property>
@@ -252,7 +283,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_6">
+        <widget class="QLabel" name="lblWith">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -265,7 +296,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_6">
+        <widget class="QSpinBox" name="sbNewByte">
          <property name="maximum">
           <number>255</number>
          </property>
@@ -279,7 +310,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="verticalSpacer_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
