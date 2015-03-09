@@ -1,10 +1,13 @@
 #include "Corruptor_Settings.h"
 #include "ui_Corruptor_Settings.h"
+#include <assert.h>
 
-Corruptor_Settings::Corruptor_Settings(QWidget *parent) :
+Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings) :
     QDialog(parent),
     ui(new Ui::Corruptor_Settings)
 {
+    assert(settings);
+    this->settings = settings;
     ui->setupUi(this);
 }
 

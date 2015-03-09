@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     Corruptor_Settings.cpp
 
 HEADERS  += Main_Window.h \
-    Corruptor_Settings.h
+    Corruptor_Settings.h \
+    Settings.h
 
 FORMS    += Main_Window.ui \
     Corruptor_Settings.ui

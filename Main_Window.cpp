@@ -4,19 +4,29 @@
 
 Main_Window::Main_Window(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Main_Window)
-{
+    ui(new Ui::Main_Window) {
+    this->settings = new Settings();
+    this->settings->startingOffset = 0;
+    this->settings->endingOffset = 0;
+    this->settings->incrementMinNum = 1;
+    this->settings->incrementMaxNum = 1000;
+    this->settings->random = true;
+    this->settings->add = false;
+    this->settings->shiftLeft = false;
+    this->settings->replace = false;
+    this->settings->addNum = 0;
+    this->settings->shiftLeftNum = 0;
+    this->settings->replace = 0;
     ui->setupUi(this);
 }
 
-Main_Window::~Main_Window()
-{
+Main_Window::~Main_Window() {
     delete ui;
+    delete settings;
 }
 
-void Main_Window::on_btnConfigure_clicked()
-{
-    Corruptor_Settings corruptorSettings(this);
+void Main_Window::on_btnConfigure_clicked() {
+    Corruptor_Settings corruptorSettings(this, this->settings);
     corruptorSettings.exec();
 }
 
