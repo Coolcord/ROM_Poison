@@ -28,6 +28,11 @@ private slots:
     void on_btnLoadSettings_clicked();
 
 private:
+    void Set_Random_Corruption_Mode(bool random);
+    void Set_Add_Mode(bool add);
+    void Set_Shift_Left_Mode(bool shift);
+    void Set_Replace_Mode(bool replace);
+    void Load_Settings();
     Ui::Corruptor_Settings *ui;
     Settings *settings;
 };

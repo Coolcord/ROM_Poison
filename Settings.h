@@ -4,10 +4,10 @@
 #include <QtGlobal>
 
 struct Settings {
-    qint64 startingOffset;
-    qint64 endingOffset;
-    qint64 incrementMinNum;
-    qint64 incrementMaxNum;
+    int startingOffset;
+    int endingOffset;
+    int incrementMinNum;
+    int incrementMaxNum;
     bool random;
     bool add;
     bool shiftLeft;

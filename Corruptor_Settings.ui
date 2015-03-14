@@ -64,8 +64,11 @@
        </item>
        <item>
         <widget class="QSpinBox" name="sbStartingOffset">
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="maximum">
-          <number>255</number>
+          <number>999999999</number>
          </property>
          <property name="displayIntegerBase">
           <number>16</number>
@@ -91,8 +94,11 @@
        </item>
        <item>
         <widget class="QSpinBox" name="sbEndingOffset">
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="maximum">
-          <number>255</number>
+          <number>999999999</number>
          </property>
          <property name="displayIntegerBase">
           <number>16</number>
@@ -124,8 +130,11 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="maximum">
-          <number>255</number>
+          <number>999999999</number>
          </property>
          <property name="displayIntegerBase">
           <number>16</number>
@@ -150,8 +159,11 @@
        </item>
        <item>
         <widget class="QSpinBox" name="sbMaxBytes">
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="maximum">
-          <number>255</number>
+          <number>999999999</number>
          </property>
          <property name="displayIntegerBase">
           <number>16</number>
@@ -220,6 +232,9 @@
        </item>
        <item>
         <widget class="QSpinBox" name="sbAdd">
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="minimum">
           <number>-255</number>
          </property>
@@ -250,6 +265,9 @@
        </item>
        <item>
         <widget class="QSpinBox" name="sbShiftLeft">
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="minimum">
           <number>-8</number>
          </property>
@@ -274,6 +292,9 @@
        </item>
        <item>
         <widget class="QSpinBox" name="sbOldByte">
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="maximum">
           <number>255</number>
          </property>
@@ -297,6 +318,9 @@
        </item>
        <item>
         <widget class="QSpinBox" name="sbNewByte">
+         <property name="prefix">
+          <string>0x</string>
+         </property>
          <property name="maximum">
           <number>255</number>
          </property>

@@ -7,9 +7,9 @@ Main_Window::Main_Window(QWidget *parent) :
     ui(new Ui::Main_Window) {
     this->settings = new Settings();
     this->settings->startingOffset = 0;
-    this->settings->endingOffset = 0;
+    this->settings->endingOffset = 999999999;
     this->settings->incrementMinNum = 1;
-    this->settings->incrementMaxNum = 1000;
+    this->settings->incrementMaxNum = 0x1000;
     this->settings->random = true;
     this->settings->add = false;
     this->settings->shiftLeft = false;
