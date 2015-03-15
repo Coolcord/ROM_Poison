@@ -3,7 +3,7 @@
 #include "Corruptor_Settings.h"
 
 Main_Window::Main_Window(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent, Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::Main_Window) {
     this->settings = new Settings();
     this->settings->startingOffset = 0;

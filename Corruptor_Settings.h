@@ -27,6 +27,14 @@ private slots:
     void on_btnSaveSettings_clicked();
     void on_btnLoadSettings_clicked();
 
+    void on_sbStartingOffset_valueChanged(int arg1);
+
+    void on_sbEndingOffset_valueChanged(int arg1);
+
+    void on_sbMinBytes_valueChanged(int arg1);
+
+    void on_sbMaxBytes_valueChanged(int arg1);
+
 private:
     void Set_Random_Corruption_Mode(bool random);
     void Set_Add_Mode(bool add);

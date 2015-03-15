@@ -3,7 +3,7 @@
 #include <assert.h>
 
 Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings) :
-    QDialog(parent),
+    QDialog(parent, Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::Corruptor_Settings) {
     assert(settings);
     this->settings = settings;
@@ -31,14 +31,24 @@ void Corruptor_Settings::on_cbReplace_toggled(bool checked) {
     this->Set_Replace_Mode(checked);
 }
 
-void Corruptor_Settings::on_buttonBox_accepted()
-{
-    //TODO: Implement this...
+void Corruptor_Settings::on_buttonBox_accepted() {
+    this->settings->startingOffset = this->ui->sbStartingOffset->value();
+    this->settings->endingOffset = this->ui->sbEndingOffset->value();
+    this->settings->incrementMinNum = this->ui->sbMinBytes->value();
+    this->settings->incrementMaxNum = this->ui->sbMaxBytes->value();
+    this->settings->random = this->ui->cbRandomByteCorruption->isChecked();
+    this->settings->add = this->ui->cbAdd->isChecked();
+    this->settings->shiftLeft = this->ui->cbShiftLeft->isChecked();
+    this->settings->replace = this->ui->cbReplace->isChecked();
+    this->settings->addNum = this->ui->sbAdd->value();
+    this->settings->shiftLeftNum = this->ui->sbShiftLeft->value();
+    this->settings->replaceOldNum = this->ui->sbOldByte->value();
+    this->settings->replaceNewNum = this->ui->sbNewByte->value();
+    this->close();
 }
 
-void Corruptor_Settings::on_buttonBox_rejected()
-{
-    //TODO: Implement this...
+void Corruptor_Settings::on_buttonBox_rejected() {
+    this->close();
 }
 
 void Corruptor_Settings::on_btnSaveSettings_clicked()
@@ -110,4 +120,26 @@ void Corruptor_Settings::Load_Settings() {
     this->Set_Add_Mode(this->settings->add);
     this->Set_Shift_Left_Mode(this->settings->shiftLeft);
     this->Set_Replace_Mode(this->settings->replace);
+    if (this->settings->add) this->ui->sbAdd->setValue(this->settings->addNum);
+    if (this->settings->shiftLeft) this->ui->sbShiftLeft->setValue(this->settings->shiftLeftNum);
+    if (this->settings->replace) {
+        this->ui->sbOldByte->setValue(this->settings->replaceOldNum);
+        this->ui->sbNewByte->setValue(this->settings->replaceNewNum);
+    }
+}
+
+void Corruptor_Settings::on_sbStartingOffset_valueChanged(int arg1) {
+    if (this->ui->sbEndingOffset->value() < arg1) this->ui->sbEndingOffset->setValue(arg1);
+}
+
+void Corruptor_Settings::on_sbEndingOffset_valueChanged(int arg1) {
+    if (this->ui->sbStartingOffset->value() > arg1) this->ui->sbStartingOffset->setValue(arg1);
+}
+
+void Corruptor_Settings::on_sbMinBytes_valueChanged(int arg1) {
+    if (this->ui->sbMaxBytes->value() < arg1) this->ui->sbMaxBytes->setValue(arg1);
+}
+
+void Corruptor_Settings::on_sbMaxBytes_valueChanged(int arg1) {
+    if (this->ui->sbMinBytes->value() > arg1) this->ui->sbMinBytes->setValue(arg1);
 }

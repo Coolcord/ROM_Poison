@@ -14,8 +14,8 @@ struct Settings {
     bool replace;
     int addNum;
     int shiftLeftNum;
-    int replaceMinNum;
-    int replaceMaxNum;
+    int replaceOldNum;
+    int replaceNewNum;
 };
 
 #endif // SETTINGS
