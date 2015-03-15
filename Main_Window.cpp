@@ -7,22 +7,26 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QDebug>
+#include <assert.h>
 
-Main_Window::Main_Window(QWidget *parent) :
+Main_Window::Main_Window(Settings *settings, bool loaded, QWidget *parent) :
     QDialog(parent, Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::Main_Window) {
-    this->settings = new Settings();
-    this->settings->startingOffset = 0;
-    this->settings->endingOffset = MAX_FILE_SIZE;
-    this->settings->incrementMinNum = 1;
-    this->settings->incrementMaxNum = 0x1000;
-    this->settings->random = true;
-    this->settings->add = false;
-    this->settings->shiftLeft = false;
-    this->settings->replace = false;
-    this->settings->addNum = 0;
-    this->settings->shiftLeftNum = 0;
-    this->settings->replace = 0;
+    assert(settings);
+    this->settings = settings;
+    if (!loaded) {
+        this->settings->startingOffset = 0;
+        this->settings->endingOffset = MAX_FILE_SIZE;
+        this->settings->incrementMinNum = 1;
+        this->settings->incrementMaxNum = 0x1000;
+        this->settings->random = true;
+        this->settings->add = false;
+        this->settings->shiftLeft = false;
+        this->settings->replace = false;
+        this->settings->addNum = 0;
+        this->settings->shiftLeftNum = 0;
+        this->settings->replace = 0;
+    }
     this->fileSize = 0;
     ui->setupUi(this);
     this->Set_Save_Location_Enabled(false);
@@ -30,7 +34,6 @@ Main_Window::Main_Window(QWidget *parent) :
 
 Main_Window::~Main_Window() {
     delete ui;
-    delete settings;
 }
 
 void Main_Window::on_btnConfigure_clicked() {

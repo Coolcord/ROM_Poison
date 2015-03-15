@@ -15,7 +15,7 @@ class Main_Window : public QDialog
     Q_OBJECT
 
 public:
-    explicit Main_Window(QWidget *parent = 0);
+    Main_Window(Settings *settings, bool loaded, QWidget *parent);
     ~Main_Window();
 
 private slots:

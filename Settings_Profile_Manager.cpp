@@ -5,15 +5,19 @@
 #include <QFile>
 #include <assert.h>
 
-Settings_Profile_Manager::Settings_Profile_Manager(QWidget *parent, const QString &applicationPath) {
-    assert(parent);
-    this->parent = parent;
+Settings_Profile_Manager::Settings_Profile_Manager(const QString &applicationPath) {
     this->applicationPath = applicationPath;
 }
 
 Settings_Profile_Manager::~Settings_Profile_Manager() { }
 
+void Settings_Profile_Manager::Set_Parent(QWidget *parent) {
+    assert(parent);
+    this->parent = parent;
+}
+
 int Settings_Profile_Manager::Save_Settings(Settings *settings) {
+    assert(this->parent);
     assert(settings);
     QDir dir(this->applicationPath);
     if (!dir.exists()) return false;
@@ -58,6 +62,7 @@ int Settings_Profile_Manager::Save_Settings(Settings *settings) {
 }
 
 int Settings_Profile_Manager::Load_Settings(Settings *settings) {
+    assert(this->parent);
     assert(settings);
     QDir dir(this->applicationPath);
     if (!dir.exists()) return false;
@@ -67,7 +72,13 @@ int Settings_Profile_Manager::Load_Settings(Settings *settings) {
     QString profileLocation = this->applicationPath + "/Profiles";
     QString loadLocation = QFileDialog::getOpenFileName(this->parent, "Open a ROM Poison Settings File", profileLocation, "ROM Poison Settings File (*.rps)");
     if (loadLocation == NULL || loadLocation.isEmpty()) return 1; //the user canceled the load
-    QFile file(loadLocation);
+    return this->Read_Settings(settings, loadLocation);
+}
+
+int Settings_Profile_Manager::Read_Settings(Settings *settings, const QString &fileLocation) {
+    assert(settings);
+    assert(fileLocation != NULL && !fileLocation.isEmpty());
+    QFile file(fileLocation);
     if (!file.exists() || !file.open(QFile::ReadWrite)) return 2;
     QTextStream stream(&file);
     if (stream.status() != QTextStream::Ok) {
@@ -149,7 +160,8 @@ int Settings_Profile_Manager::Load_Settings(Settings *settings) {
         file.close();
         return 4;
     }
-    if (!file.atEnd()) {
+    stream >> line; //ignore the last newline
+    if (!stream.atEnd()) {
         file.close();
         return 4;
     }
