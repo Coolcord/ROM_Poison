@@ -7,6 +7,7 @@
 Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings, int fileSize) :
     QDialog(parent, Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::Corruptor_Settings) {
+    assert(parent);
     assert(settings);
     this->settings = settings;
     this->fileSize = fileSize;
@@ -56,7 +57,24 @@ void Corruptor_Settings::on_buttonBox_rejected() {
 
 void Corruptor_Settings::on_btnSaveSettings_clicked() {
     Settings_Profile_Manager manager(this, QApplication::applicationDirPath());
-    switch (manager.Save_Settings(this->settings)) {
+
+    //Pull the current settings for saving
+    Settings currentSettings;
+    currentSettings.startingOffset = this->ui->sbStartingOffset->value();
+    currentSettings.endingOffset = this->ui->sbEndingOffset->value();
+    currentSettings.incrementMinNum = this->ui->sbMinBytes->value();
+    currentSettings.incrementMaxNum = this->ui->sbMaxBytes->value();
+    currentSettings.random = this->ui->cbRandomByteCorruption->isChecked();
+    currentSettings.add = this->ui->cbAdd->isChecked();
+    currentSettings.shiftLeft = this->ui->cbShiftLeft->isChecked();
+    currentSettings.replace = this->ui->cbReplace->isChecked();
+    currentSettings.addNum = this->ui->sbAdd->value();
+    currentSettings.shiftLeftNum = this->ui->sbShiftLeft->value();
+    currentSettings.replaceOldNum = this->ui->sbOldByte->value();
+    currentSettings.replaceNewNum = this->ui->sbNewByte->value();
+
+    //Perform the save
+    switch (manager.Save_Settings(&currentSettings)) {
     case 0: //success
         QMessageBox::information(this, "ROM Poison",
                                  "Settings saved successfully!", "OK");
@@ -81,6 +99,7 @@ void Corruptor_Settings::on_btnLoadSettings_clicked() {
     Settings_Profile_Manager manager(this, QApplication::applicationDirPath());
     switch (manager.Load_Settings(this->settings)) {
     case 0: //success
+        this->Load_Settings(this->fileSize);
         QMessageBox::information(this, "ROM Poison",
                                  "Settings loaded successfully!", "OK");
         break;
@@ -93,6 +112,10 @@ void Corruptor_Settings::on_btnLoadSettings_clicked() {
     case 3: //no profile folder
         QMessageBox::critical(this, "ROM Poison",
                               "ROM Poison was unable to create the Profiles folder!", "OK");
+        break;
+    case 4: //invalid ROM Poison Settings file
+        QMessageBox::critical(this, "ROM Poison",
+                              "This is not a valid ROM Poison settings file!", "OK");
         break;
     default:
         assert(false);

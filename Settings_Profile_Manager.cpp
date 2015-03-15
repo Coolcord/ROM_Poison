@@ -27,7 +27,7 @@ int Settings_Profile_Manager::Save_Settings(Settings *settings) {
 
     //Write the file to the buffer
     QFile file(saveLocation);
-    if (!file.open(QFile::ReadWrite | QFile::Truncate)) return false;
+    if (!file.open(QFile::ReadWrite | QFile::Truncate)) return 2;
     QTextStream stream(&file);
     if (stream.status() != QTextStream::Ok) {
         stream.flush();
@@ -59,6 +59,115 @@ int Settings_Profile_Manager::Save_Settings(Settings *settings) {
 
 int Settings_Profile_Manager::Load_Settings(Settings *settings) {
     assert(settings);
+    QDir dir(this->applicationPath);
+    if (!dir.exists()) return false;
+    if (!dir.cd("Profiles")) {
+        if (!dir.mkdir("Profiles")) return 3;
+    }
+    QString profileLocation = this->applicationPath + "/Profiles";
+    QString loadLocation = QFileDialog::getOpenFileName(this->parent, "Open a ROM Poison Settings File", profileLocation, "ROM Poison Settings File (*.rps)");
+    if (loadLocation == NULL || loadLocation.isEmpty()) return 1; //the user canceled the load
+    QFile file(loadLocation);
+    if (!file.exists() || !file.open(QFile::ReadWrite)) return 2;
+    QTextStream stream(&file);
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 2;
+    }
 
+    //Check the header
+    QString line = file.readLine().trimmed();
+    if (line != HEADER) {
+        file.close();
+        return 4;
+    }
+
+    //Create a new settings struct just in case this data ends up being invalid
+    Settings newSettings;
+    stream >> newSettings.startingOffset;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    stream >> newSettings.endingOffset;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    stream >> newSettings.incrementMinNum;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    stream >> newSettings.incrementMaxNum;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    int value = 0;
+    stream >> value;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    newSettings.random = static_cast<bool>(value);
+    stream >> value;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    newSettings.add = static_cast<bool>(value);
+    stream >> value;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    newSettings.shiftLeft = static_cast<bool>(value);
+    stream >> value;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    newSettings.replace = static_cast<bool>(value);
+    stream >> newSettings.addNum;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    stream >> newSettings.shiftLeftNum;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    stream >> newSettings.replaceOldNum;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    stream >> newSettings.replaceNewNum;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
+    if (!file.atEnd()) {
+        file.close();
+        return 4;
+    }
+
+    //Copy the data over to the settings now that it is confirmed to be valid
+    settings->startingOffset = newSettings.startingOffset;
+    settings->endingOffset = newSettings.endingOffset;
+    settings->incrementMinNum = newSettings.incrementMinNum;
+    settings->incrementMaxNum = newSettings.incrementMaxNum;
+    settings->random = newSettings.random;
+    settings->add = newSettings.add;
+    settings->shiftLeft = newSettings.shiftLeft;
+    settings->replace = newSettings.replace;
+    settings->addNum = newSettings.addNum;
+    settings->shiftLeftNum = newSettings.shiftLeftNum;
+    settings->replaceOldNum = newSettings.replaceOldNum;
+    settings->replaceNewNum = newSettings.replaceNewNum;
+    file.close();
+    return 0;
 }
 
