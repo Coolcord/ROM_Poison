@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>302</width>
+    <width>349</width>
     <height>325</height>
    </rect>
   </property>
@@ -133,6 +133,9 @@
          <property name="prefix">
           <string>0x</string>
          </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
           <number>999999999</number>
          </property>
@@ -161,6 +164,9 @@
         <widget class="QSpinBox" name="sbMaxBytes">
          <property name="prefix">
           <string>0x</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
          </property>
          <property name="maximum">
           <number>999999999</number>

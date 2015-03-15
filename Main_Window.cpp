@@ -1,6 +1,7 @@
 #include "Main_Window.h"
 #include "ui_Main_Window.h"
 #include "Corruptor_Settings.h"
+#include "Corruptor.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QFile>
@@ -43,7 +44,40 @@ void Main_Window::on_btnConfigure_clicked() {
 }
 
 void Main_Window::on_btnGenerate_clicked() {
-    //TODO: Implement this...
+    QString inFileLocation = this->ui->tbFileLocation->text();
+    QString outFileLocation = this->ui->tbSaveLocation->text();
+    Corruptor corruptor(this->settings, inFileLocation, outFileLocation);
+    QFileInfo inFile(inFileLocation);
+    QFileInfo outFile(outFileLocation);
+    switch (corruptor.Run()) {
+    case 0: //success
+        QMessageBox::information(this, "ROM Poison",
+                                 "Corruption created successfully!", "OK");
+        break;
+    case 1: //input file does not exist
+        QMessageBox::critical(this, "ROM Poison",
+                              inFile.fileName() + " does not exist!", "OK");
+        this->Set_Save_Location_Enabled(false);
+        this->ui->tbFileLocation->setText("");
+        break;
+    case 2: //input file is too large
+        QMessageBox::critical(this, "ROM Poison",
+                              inFile.fileName() + " is larger than the maximum supported filesize of 1GB!", "OK");
+        this->Set_Save_Location_Enabled(false);
+        this->ui->tbFileLocation->setText("");
+        break;
+    case 3: //unable to read the input file
+        QMessageBox::critical(this, "ROM Poison",
+                              "ROM Poison does not have proper permissions to read " + inFile.fileName() + "!", "OK");
+        break;
+    case 4: //unable to write to the output file
+        QMessageBox::critical(this, "ROM Poison",
+                              "ROM Poison does not have proper permissions to write " + outFile.fileName() + "!", "OK");
+        break;
+    default:
+        assert(false);
+        break;
+    }
 }
 
 void Main_Window::on_btnFileLocation_clicked() {

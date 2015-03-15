@@ -16,12 +16,14 @@ CONFIG += c++11 pendantic Wall
 SOURCES += main.cpp\
         Main_Window.cpp \
     Corruptor_Settings.cpp \
-    Settings_Profile_Manager.cpp
+    Settings_Profile_Manager.cpp \
+    Corruptor.cpp
 
 HEADERS  += Main_Window.h \
     Corruptor_Settings.h \
     Settings.h \
-    Settings_Profile_Manager.h
+    Settings_Profile_Manager.h \
+    Corruptor.h
 
 FORMS    += Main_Window.ui \
     Corruptor_Settings.ui
