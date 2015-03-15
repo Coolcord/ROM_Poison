@@ -3,6 +3,9 @@
 
 #include <QtGlobal>
 
+//Allowing files to be larger than this size won't allow users to properly manipulate the start and end offsets
+const int MAX_FILE_SIZE = 999999999;
+
 struct Settings {
     int startingOffset;
     int endingOffset;

@@ -2,13 +2,13 @@
 #include "ui_Corruptor_Settings.h"
 #include <assert.h>
 
-Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings) :
+Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings, int fileSize) :
     QDialog(parent, Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::Corruptor_Settings) {
     assert(settings);
     this->settings = settings;
     ui->setupUi(this);
-    this->Load_Settings();
+    this->Load_Settings(fileSize);
 }
 
 Corruptor_Settings::~Corruptor_Settings() {
@@ -102,7 +102,11 @@ void Corruptor_Settings::Set_Replace_Mode(bool replace) {
     }
 }
 
-void Corruptor_Settings::Load_Settings() {
+void Corruptor_Settings::Load_Settings(int fileSize) {
+    this->ui->sbStartingOffset->setMaximum(fileSize);
+    this->ui->sbEndingOffset->setMaximum(fileSize);
+    this->ui->sbMinBytes->setMaximum(fileSize);
+    this->ui->sbMaxBytes->setMaximum(fileSize);
     this->ui->sbStartingOffset->setValue(this->settings->startingOffset);
     this->ui->sbEndingOffset->setValue(this->settings->endingOffset);
     this->ui->sbMinBytes->setValue(this->settings->incrementMinNum);

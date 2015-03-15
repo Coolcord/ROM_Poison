@@ -24,9 +24,16 @@ private slots:
     void on_btnFileLocation_clicked();
     void on_btnSaveLocation_clicked();
 
+    void on_tbFileLocation_textChanged(const QString &arg1);
+
+    void on_tbSaveLocation_textChanged(const QString &arg1);
+
 private:
+    void Set_Save_Location_Enabled(bool enabled);
+    void Set_Generate_Enabled(bool enabled);
     Ui::Main_Window *ui;
     Settings *settings;
+    int fileSize;
 };
 
 #endif // MAIN_WINDOW_H

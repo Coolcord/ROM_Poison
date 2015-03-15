@@ -14,7 +14,7 @@ class Corruptor_Settings : public QDialog
     Q_OBJECT
 
 public:
-    explicit Corruptor_Settings(QWidget *parent = NULL, Settings *settings = NULL);
+    Corruptor_Settings(QWidget *parent, Settings *settings, int fileSize);
     ~Corruptor_Settings();
 
 private slots:
@@ -40,7 +40,7 @@ private:
     void Set_Add_Mode(bool add);
     void Set_Shift_Left_Mode(bool shift);
     void Set_Replace_Mode(bool replace);
-    void Load_Settings();
+    void Load_Settings(int fileSize);
     Ui::Corruptor_Settings *ui;
     Settings *settings;
 };
