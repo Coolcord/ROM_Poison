@@ -26,13 +26,9 @@ private slots:
     void on_buttonBox_rejected();
     void on_btnSaveSettings_clicked();
     void on_btnLoadSettings_clicked();
-
     void on_sbStartingOffset_valueChanged(int arg1);
-
     void on_sbEndingOffset_valueChanged(int arg1);
-
     void on_sbMinBytes_valueChanged(int arg1);
-
     void on_sbMaxBytes_valueChanged(int arg1);
 
 private:
@@ -43,6 +39,7 @@ private:
     void Load_Settings(int fileSize);
     Ui::Corruptor_Settings *ui;
     Settings *settings;
+    int fileSize;
 };
 
 #endif // CORRUPTOR_SETTINGS_H

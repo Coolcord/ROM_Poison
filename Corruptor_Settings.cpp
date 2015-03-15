@@ -1,5 +1,7 @@
 #include "Corruptor_Settings.h"
 #include "ui_Corruptor_Settings.h"
+#include "Settings_Profile_Manager.h"
+#include <QMessageBox>
 #include <assert.h>
 
 Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings, int fileSize) :
@@ -7,8 +9,9 @@ Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings, int 
     ui(new Ui::Corruptor_Settings) {
     assert(settings);
     this->settings = settings;
+    this->fileSize = fileSize;
     ui->setupUi(this);
-    this->Load_Settings(fileSize);
+    this->Load_Settings(this->fileSize);
 }
 
 Corruptor_Settings::~Corruptor_Settings() {
@@ -51,14 +54,50 @@ void Corruptor_Settings::on_buttonBox_rejected() {
     this->close();
 }
 
-void Corruptor_Settings::on_btnSaveSettings_clicked()
-{
-    //TODO: Implement this...
+void Corruptor_Settings::on_btnSaveSettings_clicked() {
+    Settings_Profile_Manager manager(this, QApplication::applicationDirPath());
+    switch (manager.Save_Settings(this->settings)) {
+    case 0: //success
+        QMessageBox::information(this, "ROM Poison",
+                                 "Settings saved successfully!", "OK");
+        break;
+    case 1: //user canceled the save
+        break;
+    case 2: //standard error
+        QMessageBox::critical(this, "ROM Poison",
+                              "Unable to save settings!", "OK");
+        break;
+    case 3: //no profile folder
+        QMessageBox::critical(this, "ROM Poison",
+                              "ROM Poison was unable to create the Profiles folder!", "OK");
+        break;
+    default:
+        assert(false);
+        break;
+    }
 }
 
-void Corruptor_Settings::on_btnLoadSettings_clicked()
-{
-    //TODO: Implement this...
+void Corruptor_Settings::on_btnLoadSettings_clicked() {
+    Settings_Profile_Manager manager(this, QApplication::applicationDirPath());
+    switch (manager.Load_Settings(this->settings)) {
+    case 0: //success
+        QMessageBox::information(this, "ROM Poison",
+                                 "Settings loaded successfully!", "OK");
+        break;
+    case 1: //user canceled the load
+        break;
+    case 2: //standard error
+        QMessageBox::critical(this, "ROM Poison",
+                              "Unable to load settings!", "OK");
+        break;
+    case 3: //no profile folder
+        QMessageBox::critical(this, "ROM Poison",
+                              "ROM Poison was unable to create the Profiles folder!", "OK");
+        break;
+    default:
+        assert(false);
+        break;
+    }
 }
 
 void Corruptor_Settings::Set_Random_Corruption_Mode(bool random) {
