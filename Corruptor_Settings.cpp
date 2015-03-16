@@ -133,9 +133,11 @@ void Corruptor_Settings::Set_Random_Corruption_Mode(bool random) {
     this->ui->cbShiftLeft->setEnabled(!random);
     this->ui->cbReplace->setEnabled(!random);
 
-    this->ui->cbAdd->setChecked(random);
-    this->ui->cbShiftLeft->setChecked(random);
-    this->ui->cbReplace->setChecked(random);
+    if (random) {
+        this->ui->cbAdd->setChecked(false);
+        this->ui->cbShiftLeft->setChecked(false);
+        this->ui->cbReplace->setChecked(false);
+    }
     this->Set_Add_Mode(!random);
     this->Set_Shift_Left_Mode(!random);
     this->Set_Replace_Mode(!random);
@@ -148,22 +150,20 @@ void Corruptor_Settings::Set_Random_Corruption_Mode(bool random) {
 
 void Corruptor_Settings::Set_Add_Mode(bool add) {
     this->ui->sbAdd->setEnabled(add);
-    if (add) this->ui->sbAdd->setValue(0);
+    this->ui->sbAdd->setValue(0);
 }
 
 void Corruptor_Settings::Set_Shift_Left_Mode(bool shift) {
     this->ui->sbShiftLeft->setEnabled(shift);
-    if (shift) this->ui->sbShiftLeft->setValue(0);
+    this->ui->sbShiftLeft->setValue(0);
 }
 
 void Corruptor_Settings::Set_Replace_Mode(bool replace) {
     this->ui->sbOldByte->setEnabled(replace);
     this->ui->sbNewByte->setEnabled(replace);
     this->ui->lblWith->setEnabled(replace);
-    if (replace) {
-        this->ui->sbOldByte->setValue(0);
-        this->ui->sbNewByte->setValue(0);
-    }
+    this->ui->sbOldByte->setValue(0);
+    this->ui->sbNewByte->setValue(0);
 }
 
 void Corruptor_Settings::Load_Settings(int fileSize) {

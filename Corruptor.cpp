@@ -17,7 +17,7 @@ Corruptor::~Corruptor() { }
 int Corruptor::Run() {
     //Open the input file for reading
     QFile inFile(this->inFileLocation);
-    if (inFile.exists()) return 1; //input file does not exist
+    if (!inFile.exists()) return 1; //input file does not exist
     this->fileSize = inFile.size();
     if (this->fileSize > MAX_FILE_SIZE) return 2; //input file is too large
     if (!inFile.open(QFile::ReadOnly)) return 3; //unable to read the input file

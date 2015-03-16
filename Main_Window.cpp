@@ -38,7 +38,6 @@ Main_Window::~Main_Window() {
 }
 
 void Main_Window::on_btnConfigure_clicked() {
-    qDebug() << this->fileSize;
     Corruptor_Settings corruptorSettings(this, this->settings, this->fileSize);
     corruptorSettings.exec();
 }
