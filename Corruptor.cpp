@@ -42,12 +42,13 @@ int Corruptor::Run() {
             int bufferSize = 0;
             if (remainingBytes > MAX_BUFFER_SIZE) bufferSize = MAX_BUFFER_SIZE;
             else bufferSize = remainingBytes;
-            remainingBytes -= bufferSize;
             QByteArray buffer(bufferSize, ' ');
             int startingPosition = inFile.pos();
             if (inFile.read(buffer.data(), bufferSize) != bufferSize) return 3; //unable to read the input file
             int endingPosition = inFile.pos();
-            if (this->settings->startingOffset <= endingPosition || this->settings->endingOffset >= startingPosition) {
+            assert(startingPosition <= endingPosition);
+            if ((this->settings->startingOffset >= startingPosition && this->settings->startingOffset <= endingPosition)
+            || (this->settings->endingOffset >= startingPosition && this->settings->endingOffset <= endingPosition)) {
                 int readBytes = this->fileSize-remainingBytes;
                 int startingCorruptionPos = this->settings->startingOffset-readBytes;
                 if (startingCorruptionPos < 0) startingCorruptionPos = 0;
@@ -56,9 +57,11 @@ int Corruptor::Run() {
                 else endingCorruptionPos = this->settings->endingOffset-readBytes;
                 if (endingCorruptionPos < 0) endingCorruptionPos = 0;
                 assert(startingCorruptionPos <= endingCorruptionPos);
+                assert(endingCorruptionPos <= this->fileSize);
                 assert(this->Corrupt_Buffer(&buffer, startingCorruptionPos, endingCorruptionPos));
             }
             if (outFile.write(buffer, bufferSize) != bufferSize) return 4; //unable to write the output file
+            remainingBytes -= bufferSize;
         }
         inFile.close();
     } else { //read the entire file into one buffer

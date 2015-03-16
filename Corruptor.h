@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QByteArray>
 
-const static int MAX_BUFFER_SIZE = 32768; //32MB
+const static int MAX_BUFFER_SIZE = 33554432; //32MB
 
 class Corruptor
 {
