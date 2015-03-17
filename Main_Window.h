@@ -34,6 +34,7 @@ private:
     Ui::Main_Window *ui;
     Settings *settings;
     int fileSize;
+    bool loaded;
 };
 
 #endif // MAIN_WINDOW_H

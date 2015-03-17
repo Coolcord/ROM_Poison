@@ -15,7 +15,8 @@ Main_Window::Main_Window(Settings *settings, bool loaded, QWidget *parent) :
     ui(new Ui::Main_Window) {
     assert(settings);
     this->settings = settings;
-    if (!loaded) {
+    this->loaded = loaded;
+    if (!this->loaded) {
         this->settings->startingOffset = 0;
         this->settings->endingOffset = MAX_FILE_SIZE;
         this->settings->incrementMinNum = 1;
@@ -51,7 +52,7 @@ void Main_Window::on_btnGenerate_clicked() {
     switch (corruptor.Run()) {
     case 0: //success
         QMessageBox::information(this, "ROM Poison",
-                                 "Corruption created successfully!", "OK");
+                                 "Corruption generated successfully!", "OK");
         break;
     case 1: //input file does not exist
         QMessageBox::critical(this, "ROM Poison",
@@ -147,7 +148,8 @@ void Main_Window::on_tbSaveLocation_textChanged(const QString &arg1) {
             return;
         }
         if (originalFile.size() > MAX_FILE_SIZE) this->settings->endingOffset = MAX_FILE_SIZE;
-        else this->settings->endingOffset = originalFile.size(); //TODO: Handle the case where settings have been loaded
+        else if (!this->loaded) this->settings->endingOffset = originalFile.size();
+        else this->loaded = false; //if the user loads a second file, ignore the default settings
         this->fileSize = this->settings->endingOffset;
         if (this->settings->incrementMaxNum > this->settings->endingOffset) this->settings->incrementMaxNum = this->settings->endingOffset;
         if (this->settings->incrementMinNum > this->settings->incrementMaxNum) this->settings->incrementMinNum = this->settings->incrementMaxNum;
