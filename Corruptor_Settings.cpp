@@ -211,3 +211,8 @@ void Corruptor_Settings::on_sbMinBytes_valueChanged(int arg1) {
 void Corruptor_Settings::on_sbMaxBytes_valueChanged(int arg1) {
     if (this->ui->sbMinBytes->value() > arg1) this->ui->sbMinBytes->setValue(arg1);
 }
+
+void Corruptor_Settings::on_btnEndOfFile_clicked() {
+    this->ui->sbEndingOffset->setValue(this->fileSize);
+    assert(this->ui->sbStartingOffset->value() <= this->fileSize);
+}

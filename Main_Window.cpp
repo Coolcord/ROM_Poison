@@ -17,9 +17,9 @@ Main_Window::Main_Window(Settings *settings, bool loaded, QWidget *parent) :
     this->settings = settings;
     this->loaded = loaded;
     if (!this->loaded) {
-        this->settings->startingOffset = 0;
+        this->settings->startingOffset = 0x1000;
         this->settings->endingOffset = MAX_FILE_SIZE;
-        this->settings->incrementMinNum = 1;
+        this->settings->incrementMinNum = 0x500;
         this->settings->incrementMaxNum = 0x1000;
         this->settings->random = true;
         this->settings->add = false;
@@ -147,10 +147,25 @@ void Main_Window::on_tbSaveLocation_textChanged(const QString &arg1) {
             this->ui->tbFileLocation->setText("");
             return;
         }
-        if (originalFile.size() > MAX_FILE_SIZE) this->settings->endingOffset = MAX_FILE_SIZE;
-        else if (!this->loaded) this->settings->endingOffset = originalFile.size();
-        else this->loaded = false; //if the user loads a second file, ignore the default settings
-        this->fileSize = this->settings->endingOffset;
+        //Set the ending offset
+        qint64 originalFileSize = originalFile.size();
+        if (originalFileSize > MAX_FILE_SIZE) this->settings->endingOffset = MAX_FILE_SIZE;
+        else this->settings->endingOffset = originalFileSize;
+
+        //Fix the starting offset if necessary
+        if (this->settings->startingOffset > this->settings->endingOffset) {
+            if (this->settings->endingOffset > 0x1000) {
+                this->settings->startingOffset = 0x1000;
+                this->settings->incrementMinNum = 0x100;
+                this->settings->incrementMaxNum = 0x200;
+            } else { //start at 0
+                this->settings->startingOffset = 0;
+                this->settings->incrementMinNum = 1; //this is a very small file, so let the user handle these
+                this->settings->incrementMaxNum = 1;
+            }
+        }
+
+        this->fileSize = originalFileSize;
         if (this->settings->incrementMaxNum > this->settings->endingOffset) this->settings->incrementMaxNum = this->settings->endingOffset;
         if (this->settings->incrementMinNum > this->settings->incrementMaxNum) this->settings->incrementMinNum = this->settings->incrementMaxNum;
     }

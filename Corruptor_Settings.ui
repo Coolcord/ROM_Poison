@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>349</width>
+    <width>380</width>
     <height>325</height>
    </rect>
   </property>
@@ -80,17 +80,28 @@
      <item>
       <layout class="QHBoxLayout" name="layoutEndingOffset">
        <item>
-        <widget class="QLabel" name="lblEndingOffset">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Ending Offset</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="lblEndingOffset">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Ending Offset</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnEndOfFile">
+           <property name="text">
+            <string>End of File</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QSpinBox" name="sbEndingOffset">
