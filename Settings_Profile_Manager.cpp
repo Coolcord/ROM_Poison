@@ -121,6 +121,12 @@ int Settings_Profile_Manager::Read_Settings(Settings *settings, const QString &f
         file.close();
         return 4;
     }
+    newSettings.increment = static_cast<bool>(value);
+    stream >> value;
+    if (stream.status() != QTextStream::Ok) {
+        file.close();
+        return 4;
+    }
     newSettings.random = static_cast<bool>(value);
     stream >> value;
     if (stream.status() != QTextStream::Ok) {
@@ -171,6 +177,7 @@ int Settings_Profile_Manager::Read_Settings(Settings *settings, const QString &f
     settings->endingOffset = newSettings.endingOffset;
     settings->incrementMinNum = newSettings.incrementMinNum;
     settings->incrementMaxNum = newSettings.incrementMaxNum;
+    settings->increment = newSettings.increment;
     settings->random = newSettings.random;
     settings->add = newSettings.add;
     settings->shiftLeft = newSettings.shiftLeft;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>380</width>
-    <height>325</height>
+    <height>331</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -201,6 +201,13 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="cbIncrement">
+       <property name="text">
+        <string>Increment after each generation</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

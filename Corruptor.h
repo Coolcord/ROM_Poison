@@ -31,6 +31,7 @@ private:
     void Add_To_Byte(unsigned char &byte);
     void Shift_Byte(unsigned char &byte);
     bool Replace_Byte(unsigned char &byte);
+    void Handle_Increment();
 
     QWidget *parent;
     Settings *settings;

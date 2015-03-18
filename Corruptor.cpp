@@ -76,6 +76,7 @@ int Corruptor::Run() {
     }
 
     outFile.close();
+    this->Handle_Increment();
     return 0;
 }
 
@@ -329,3 +330,16 @@ bool Corruptor::Replace_Byte(unsigned char &byte) {
     return false;
 }
 
+void Corruptor::Handle_Increment() {
+    if (this->settings->increment && this->settings->incrementMinNum < this->settings->endingOffset) {
+        ++this->settings->incrementMinNum;
+        ++this->settings->incrementMaxNum;
+        if (this->settings->incrementMinNum > this->settings->endingOffset) {
+            this->settings->incrementMinNum = this->settings->endingOffset;
+        }
+        if (this->settings->incrementMaxNum > this->settings->endingOffset) {
+            this->settings->incrementMaxNum = this->settings->endingOffset;
+        }
+        assert(this->settings->incrementMinNum <= this->settings->incrementMaxNum);
+    }
+}

@@ -175,6 +175,7 @@ void Corruptor_Settings::Load_Settings(int fileSize) {
     this->ui->sbEndingOffset->setValue(this->settings->endingOffset);
     this->ui->sbMinBytes->setValue(this->settings->incrementMinNum);
     this->ui->sbMaxBytes->setValue(this->settings->incrementMaxNum);
+    this->ui->cbIncrement->setChecked(this->settings->increment);
     this->ui->cbRandomByteCorruption->setChecked(this->settings->random);
     if (this->settings->random) {
         this->Set_Random_Corruption_Mode(true);

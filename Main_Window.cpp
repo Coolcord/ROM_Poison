@@ -21,6 +21,7 @@ Main_Window::Main_Window(Settings *settings, bool loaded, QWidget *parent) :
         this->settings->endingOffset = MAX_FILE_SIZE;
         this->settings->incrementMinNum = 0x500;
         this->settings->incrementMaxNum = 0x1000;
+        this->settings->increment = false;
         this->settings->random = true;
         this->settings->add = false;
         this->settings->shiftLeft = false;

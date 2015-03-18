@@ -11,6 +11,7 @@ struct Settings {
     int endingOffset;
     int incrementMinNum;
     int incrementMaxNum;
+    bool increment;
     bool random;
     bool add;
     bool shiftLeft;

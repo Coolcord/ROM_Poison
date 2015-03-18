@@ -49,6 +49,7 @@ int main(int argc, char *argv[]) {
         Corruptor corruptor(NULL, &settings, argv[1], argv[2]);
         ret = corruptor.Run();
         corruptor.Show_Message(ret);
+        if (settings.increment) manager.Save_Settings(&settings);
         return ret;
     }
 
