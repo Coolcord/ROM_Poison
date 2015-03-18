@@ -5,29 +5,20 @@
 #include <QFile>
 #include <assert.h>
 
-Settings_Profile_Manager::Settings_Profile_Manager(const QString &applicationPath) {
+Settings_Profile_Manager::Settings_Profile_Manager(QWidget *parent, const QString &applicationPath) {
+    this->parent = parent;
     this->applicationPath = applicationPath;
 }
 
 Settings_Profile_Manager::~Settings_Profile_Manager() { }
 
-void Settings_Profile_Manager::Set_Parent(QWidget *parent) {
-    assert(parent);
-    this->parent = parent;
-}
-
-int Settings_Profile_Manager::Save_Settings(Settings *settings) {
-    assert(this->parent);
+int Settings_Profile_Manager::Save_Settings(Settings *settings, const QString &saveLocation) {
     assert(settings);
     QDir dir(this->applicationPath);
     if (!dir.exists()) return false;
     if (!dir.cd("Profiles")) {
         if (!dir.mkdir("Profiles")) return 3;
     }
-    QString profileLocation = this->applicationPath + "/Profiles";
-    QString saveLocation = QFileDialog::getSaveFileName(this->parent, "Save Location", profileLocation, "ROM Poison Settings File (*.rps)");
-    if (saveLocation == NULL || saveLocation.isEmpty()) return 1; //the user canceled the save
-    if (!saveLocation.endsWith(".rps")) saveLocation += ".rps";
 
     //Write the file to the buffer
     QFile file(saveLocation);
@@ -44,6 +35,7 @@ int Settings_Profile_Manager::Save_Settings(Settings *settings) {
     stream << settings->endingOffset << "\n";
     stream << settings->incrementMinNum << "\n";
     stream << settings->incrementMaxNum << "\n";
+    stream << settings->increment << "\n";
     stream << settings->random << "\n";
     stream << settings->add << "\n";
     stream << settings->shiftLeft << "\n";
@@ -59,6 +51,15 @@ int Settings_Profile_Manager::Save_Settings(Settings *settings) {
         return 2;
     }
     return 0;
+}
+
+int Settings_Profile_Manager::Save_Settings(Settings *settings) {
+    assert(this->parent);
+    QString profileLocation = this->applicationPath + "/Profiles";
+    QString saveLocation = QFileDialog::getSaveFileName(this->parent, "Save Location", profileLocation, "ROM Poison Settings File (*.rps)");
+    if (saveLocation == NULL || saveLocation.isEmpty()) return 1; //the user canceled the save
+    if (!saveLocation.endsWith(".rps")) saveLocation += ".rps";
+    return this->Save_Settings(settings, saveLocation);
 }
 
 int Settings_Profile_Manager::Load_Settings(Settings *settings) {

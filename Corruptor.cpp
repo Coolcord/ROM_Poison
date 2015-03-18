@@ -88,7 +88,7 @@ bool Corruptor::Show_Message(int errorCode) {
         case 0: //success
             QMessageBox::information(this->parent, "ROM Poison",
                                      "Corruption generated successfully!", "OK");
-            break;
+            return true;
         case 1: //input file does not exist
             QMessageBox::critical(this->parent, "ROM Poison",
                                   inFile.fileName() + " does not exist!", "OK");
@@ -129,7 +129,6 @@ bool Corruptor::Show_Message(int errorCode) {
             return false;
         }
     }
-    return false;
 }
 
 bool Corruptor::Use_NES_CPU_Jam_Protection(QFile *file) {

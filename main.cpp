@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
         QFile file(defaultSettingsPath);
         bool loaded = false;
         if (file.exists()) {
-            Settings_Profile_Manager manager(QApplication::applicationDirPath());
+            Settings_Profile_Manager manager(NULL, QApplication::applicationDirPath());
             int ret = manager.Read_Settings(&settings, defaultSettingsPath);
             if (ret == 0) {
                 loaded = true;
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
         QApplication a(argc, argv);
 
         Settings settings;
-        Settings_Profile_Manager manager(QApplication::applicationDirPath());
+        Settings_Profile_Manager manager(NULL, QApplication::applicationDirPath());
 
         //Try to load from the main profiles path first
         QString settingsPath = QApplication::applicationDirPath()+"/Profiles/"+argv[3];
@@ -49,7 +49,12 @@ int main(int argc, char *argv[]) {
         Corruptor corruptor(NULL, &settings, argv[1], argv[2]);
         ret = corruptor.Run();
         corruptor.Show_Message(ret);
-        if (settings.increment) manager.Save_Settings(&settings);
+        if (settings.increment) {
+            if (manager.Save_Settings(&settings, settingsPath) != 0) {
+                qDebug() << "Unable to save settings!";
+                return 6;
+            }
+        }
         return ret;
     }
 

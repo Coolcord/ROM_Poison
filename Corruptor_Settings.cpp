@@ -56,8 +56,7 @@ void Corruptor_Settings::on_buttonBox_rejected() {
 }
 
 void Corruptor_Settings::on_btnSaveSettings_clicked() {
-    Settings_Profile_Manager manager(QApplication::applicationDirPath());
-    manager.Set_Parent(this);
+    Settings_Profile_Manager manager(this, QApplication::applicationDirPath());
 
     //Pull the current settings for saving
     Settings currentSettings;
@@ -97,8 +96,8 @@ void Corruptor_Settings::on_btnSaveSettings_clicked() {
 }
 
 void Corruptor_Settings::on_btnLoadSettings_clicked() {
-    Settings_Profile_Manager manager(QApplication::applicationDirPath());
-    manager.Set_Parent(this);
+    Settings_Profile_Manager manager(this, QApplication::applicationDirPath());
+
     switch (manager.Load_Settings(this->settings)) {
     case 0: //success
         this->Load_Settings(this->fileSize);
