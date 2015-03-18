@@ -5,15 +5,17 @@
 #include <QString>
 #include <QFile>
 #include <QByteArray>
+#include <QWidget>
 
 const static int MAX_BUFFER_SIZE = 33554432; //32MB
 
 class Corruptor
 {
 public:
-    Corruptor(Settings *settings, const QString &inFileLocation, const QString &outFileLocation);
+    Corruptor(QWidget *parent, Settings *settings, const QString &inFileLocation, const QString &outFileLocation);
     ~Corruptor();
     int Run();
+    bool Show_Message(int errorCode);
 
 private:
     bool Use_NES_CPU_Jam_Protection(QFile *file);
@@ -30,6 +32,7 @@ private:
     void Shift_Byte(unsigned char &byte);
     bool Replace_Byte(unsigned char &byte);
 
+    QWidget *parent;
     Settings *settings;
     QString inFileLocation;
     QString outFileLocation;

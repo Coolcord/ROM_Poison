@@ -1,9 +1,13 @@
 #include "Corruptor.h"
 #include <QTime>
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QDebug>
 #include <assert.h>
 
-Corruptor::Corruptor(Settings *settings, const QString &inFileLocation, const QString &outFileLocation) {
+Corruptor::Corruptor(QWidget *parent, Settings *settings, const QString &inFileLocation, const QString &outFileLocation) {
     assert(settings);
+    this->parent = parent;
     qsrand(QTime::currentTime().msecsSinceStartOfDay());
     this->settings = settings;
     this->inFileLocation = inFileLocation;
@@ -73,6 +77,58 @@ int Corruptor::Run() {
 
     outFile.close();
     return 0;
+}
+
+bool Corruptor::Show_Message(int errorCode) {
+    QFileInfo inFile(this->inFileLocation);
+    QFileInfo outFile(this->outFileLocation);
+    if (this->parent != NULL) {
+        switch (errorCode) {
+        case 0: //success
+            QMessageBox::information(this->parent, "ROM Poison",
+                                     "Corruption generated successfully!", "OK");
+            break;
+        case 1: //input file does not exist
+            QMessageBox::critical(this->parent, "ROM Poison",
+                                  inFile.fileName() + " does not exist!", "OK");
+            return true;
+        case 2: //input file is too large
+            QMessageBox::critical(this->parent, "ROM Poison",
+                                  inFile.fileName() + " is larger than the maximum supported filesize of 1GB!", "OK");
+            return true;
+        case 3: //unable to read the input file
+            QMessageBox::critical(this->parent, "ROM Poison",
+                                  "ROM Poison does not have proper permissions to read " + inFile.fileName() + "!", "OK");
+            return true;
+        case 4: //unable to write to the output file
+            QMessageBox::critical(this->parent, "ROM Poison",
+                                  "ROM Poison does not have proper permissions to write " + outFile.fileName() + "!", "OK");
+            return true;
+        default:
+            return false;
+        }
+    } else {
+        switch (errorCode) {
+        case 0: //success
+            qDebug() << "Corruption generated successfully!";
+            return true;
+        case 1: //input file does not exist
+            qDebug() << inFile.fileName() + " does not exist!";
+            return true;
+        case 2: //input file is too large
+            qDebug() << inFile.fileName() + " is larger than the maximum supported filesize of 1GB!";
+            return true;
+        case 3: //unable to read the input file
+            qDebug() << "ROM Poison does not have proper permissions to read " + inFile.fileName() + "!";
+            return true;
+        case 4: //unable to write to the output file
+            qDebug() << "ROM Poison does not have proper permissions to write " + outFile.fileName() + "!";
+            return true;
+        default:
+            return false;
+        }
+    }
+    return false;
 }
 
 bool Corruptor::Use_NES_CPU_Jam_Protection(QFile *file) {

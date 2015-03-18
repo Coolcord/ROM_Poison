@@ -23,9 +23,7 @@ private slots:
     void on_btnGenerate_clicked();
     void on_btnFileLocation_clicked();
     void on_btnSaveLocation_clicked();
-
     void on_tbFileLocation_textChanged(const QString &arg1);
-
     void on_tbSaveLocation_textChanged(const QString &arg1);
 
 private:
