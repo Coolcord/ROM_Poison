@@ -30,7 +30,6 @@ private slots:
     void on_sbEndingOffset_valueChanged(int arg1);
     void on_sbMinBytes_valueChanged(int arg1);
     void on_sbMaxBytes_valueChanged(int arg1);
-
     void on_btnEndOfFile_clicked();
 
 private:

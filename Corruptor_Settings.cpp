@@ -64,6 +64,7 @@ void Corruptor_Settings::on_btnSaveSettings_clicked() {
     currentSettings.endingOffset = this->ui->sbEndingOffset->value();
     currentSettings.incrementMinNum = this->ui->sbMinBytes->value();
     currentSettings.incrementMaxNum = this->ui->sbMaxBytes->value();
+    currentSettings.increment = this->ui->cbIncrement->isChecked();
     currentSettings.random = this->ui->cbRandomByteCorruption->isChecked();
     currentSettings.add = this->ui->cbAdd->isChecked();
     currentSettings.shiftLeft = this->ui->cbShiftLeft->isChecked();
