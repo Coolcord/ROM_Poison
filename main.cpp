@@ -4,7 +4,7 @@
 #include <QFileInfo>
 #include <QFile>
 #include <QApplication>
-#include <QDebug>
+#include <iostream>
 #include <assert.h>
 
 int main(int argc, char *argv[]) {
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
             ret = manager.Read_Settings(&settings, settingsPath);
         }
         if (ret != 0) {
-            qDebug() << "Unable to load settings profile " << argv[3] << "!";
+            std::cerr << "Unable to load settings profile " << argv[3] << "!" << std::endl;
             return 5;
         }
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
         corruptor.Show_Message(ret);
         if (settings.increment) {
             if (manager.Save_Settings(&settings, settingsPath) != 0) {
-                qDebug() << "Unable to save settings!";
+                std::cerr << "Unable to save settings!" << std::endl;
                 return 6;
             }
         }
@@ -59,5 +59,6 @@ int main(int argc, char *argv[]) {
     }
 
     //Improper number of command line arguments
-    qDebug() << "ROM_Poison <original file> <save location> <ROM Poison Settings File>";
+    std::cout << "ROM_Poison <original file> <save location> <ROM Poison Settings File>" << std::endl;
+    return 7;
 }

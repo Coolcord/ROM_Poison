@@ -2,7 +2,7 @@
 #include <QTime>
 #include <QFileInfo>
 #include <QMessageBox>
-#include <QDebug>
+#include <iostream>
 #include <assert.h>
 
 Corruptor::Corruptor(QWidget *parent, Settings *settings, const QString &inFileLocation, const QString &outFileLocation) {
@@ -111,19 +111,19 @@ bool Corruptor::Show_Message(int errorCode) {
     } else {
         switch (errorCode) {
         case 0: //success
-            qDebug() << "Corruption generated successfully!";
+            std::cout << "Corruption generated successfully!" << std::endl;
             return true;
         case 1: //input file does not exist
-            qDebug() << inFile.fileName() + " does not exist!";
+            std::cerr << inFile.fileName().toStdString() + " does not exist!" << std::endl;
             return true;
         case 2: //input file is too large
-            qDebug() << inFile.fileName() + " is larger than the maximum supported filesize of 1GB!";
+            std::cerr << inFile.fileName().toStdString() + " is larger than the maximum supported filesize of 1GB!" << std::endl;
             return true;
         case 3: //unable to read the input file
-            qDebug() << "ROM Poison does not have proper permissions to read " + inFile.fileName() + "!";
+            std::cerr << "ROM Poison does not have proper permissions to read " + inFile.fileName().toStdString() + "!" << std::endl;
             return true;
         case 4: //unable to write to the output file
-            qDebug() << "ROM Poison does not have proper permissions to write " + outFile.fileName() + "!";
+            std::cerr << "ROM Poison does not have proper permissions to write " + outFile.fileName().toStdString() + "!" << std::endl;
             return true;
         default:
             return false;
