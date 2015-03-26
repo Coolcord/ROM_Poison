@@ -49,5 +49,8 @@ is a NES or Famicom ROM. If it is either, the feature will be automatically
 enabled. When enabled, ROM Poison will prevent creating invalid assembly commands
 that are known to cause the NES to crash or freeze.
 
+You can download the Windows version at:
+http://www.mediafire.com/download/dpzpvd9hc4j1rwq/ROM_Poison.exe
+
 If you wish to contact me about the application, or anything of the like,
 feel free to send me an email at coolcord24@gmail.com
