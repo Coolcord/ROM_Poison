@@ -308,7 +308,7 @@ void Corruptor::Add_To_Byte(unsigned char &byte) {
             byte -= decrementAmount;
         }
     } else { //increment
-        byte += (this->settings->addNum%0x100);
+        byte = (byte+this->settings->addNum)%0x100;
     }
 }
 
