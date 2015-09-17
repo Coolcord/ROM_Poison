@@ -301,7 +301,10 @@ void Corruptor::Add_To_Byte(unsigned char &byte) {
     if (this->settings->addNum < 0) { //decrement
         int decrementAmount = 0-this->settings->addNum;
         if (byte < decrementAmount) {
-            while (byte != 0x00) --decrementAmount;
+            while (byte != 0x00) {
+                --byte;
+                --decrementAmount;
+            }
             assert(decrementAmount >= 0);
             byte = 0xFF - decrementAmount;
         } else {
