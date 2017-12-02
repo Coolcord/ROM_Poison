@@ -53,4 +53,4 @@ You can download the Windows version at:
 http://www.mediafire.com/download/dpzpvd9hc4j1rwq/ROM_Poison.exe
 
 If you wish to contact me about the application, or anything of the like,
-feel free to send me an email at coolcord24@gmail.com
+feel free to send me an email at coolcord24@tutanota.com
