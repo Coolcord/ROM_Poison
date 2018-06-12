@@ -3,7 +3,12 @@ ROM Poison
 
 Easily corrupt ROMs or files in a few clicks.
 
--============================- About ROM Poison -============================-
+[![GitHub release](https://img.shields.io/github/release/Coolcord/ROM_Poison.svg)](https://GitHub.com/Coolcord/ROM_Poison/releases)
+[![Github all releases](https://img.shields.io/github/downloads/Coolcord/ROM_Poison/total.svg)](https://GitHub.com/Coolcord/ROM_Poison/releases)
+
+# [Download for Windows](https://github.com/Coolcord/ROM_Poison/releases/download/v1.0.0/ROM_Poison.zip)
+
+## About ROM Poison
 
 ROM Poison is designed to be a simple, but powerful, ROM corruptor. Due to
 the nature of ROM corruptors, this can be used on any file, but it is
@@ -48,9 +53,6 @@ this feature is built-in. When loading a ROM, ROM Poison checks to see if the RO
 is a NES or Famicom ROM. If it is either, the feature will be automatically
 enabled. When enabled, ROM Poison will prevent creating invalid assembly commands
 that are known to cause the NES to crash or freeze.
-
-You can download the Windows version at:
-http://www.mediafire.com/download/dpzpvd9hc4j1rwq/ROM_Poison.exe
 
 If you wish to contact me about the application, or anything of the like,
 feel free to send me an email at coolcord24@tutanota.com
