@@ -1,0 +1,7 @@
+build-*/
+*.pro.user
+*.pro.user.*
+.~lock.*
+*.autosave
+.qmake.stash
+
