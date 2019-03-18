@@ -8,7 +8,7 @@
 Corruptor::Corruptor(QWidget *parent, Settings *settings, const QString &inFileLocation, const QString &outFileLocation) {
     assert(settings);
     this->parent = parent;
-    qsrand(QTime::currentTime().msecsSinceStartOfDay());
+    qsrand(static_cast<unsigned int>(QTime::currentTime().msecsSinceStartOfDay()));
     this->settings = settings;
     this->inFileLocation = inFileLocation;
     this->outFileLocation = outFileLocation;
@@ -41,22 +41,22 @@ int Corruptor::Run() {
 
     //Read the file in sections of 32MB if it is a large file
     if (this->fileSize > MAX_BUFFER_SIZE) {
-        int remainingBytes = this->fileSize;
+        qint64 remainingBytes = this->fileSize;
         while (remainingBytes > 0) {
             int bufferSize = 0;
             if (remainingBytes > MAX_BUFFER_SIZE) bufferSize = MAX_BUFFER_SIZE;
-            else bufferSize = remainingBytes;
+            else bufferSize = static_cast<int>(remainingBytes);
             QByteArray buffer(bufferSize, ' ');
-            int startingPosition = inFile.pos();
+            qint64 startingPosition = inFile.pos();
             if (inFile.read(buffer.data(), bufferSize) != bufferSize) return 3; //unable to read the input file
-            int endingPosition = inFile.pos();
+            qint64 endingPosition = inFile.pos();
             assert(startingPosition <= endingPosition);
             if ((this->settings->startingOffset >= startingPosition && this->settings->startingOffset <= endingPosition)
             || (this->settings->endingOffset >= startingPosition && this->settings->endingOffset <= endingPosition)) {
-                int readBytes = this->fileSize-remainingBytes;
-                int startingCorruptionPos = this->settings->startingOffset-readBytes;
+                qint64 readBytes = this->fileSize-remainingBytes;
+                qint64 startingCorruptionPos = this->settings->startingOffset-readBytes;
                 if (startingCorruptionPos < 0) startingCorruptionPos = 0;
-                int endingCorruptionPos = 0;
+                qint64 endingCorruptionPos = 0;
                 if (this->settings->endingOffset > (readBytes+MAX_BUFFER_SIZE)) endingCorruptionPos = MAX_BUFFER_SIZE;
                 else endingCorruptionPos = this->settings->endingOffset-readBytes;
                 if (endingCorruptionPos < 0) endingCorruptionPos = 0;
@@ -83,7 +83,7 @@ int Corruptor::Run() {
 bool Corruptor::Show_Message(int errorCode) {
     QFileInfo inFile(this->inFileLocation);
     QFileInfo outFile(this->outFileLocation);
-    if (this->parent != NULL) {
+    if (this->parent != nullptr) {
         switch (errorCode) {
         case 0: //success
             QMessageBox::information(this->parent, "ROM Poison",
@@ -137,7 +137,7 @@ bool Corruptor::Use_NES_CPU_Jam_Protection(QFile *file) {
     if (!file->seek(0)) return false;
     QByteArray buffer(4, ' ');
     if (file->read(buffer.data(), 4) != 4) return false;
-    if (buffer.data() == NULL || buffer.size() != 4) return false;
+    if (buffer.data() == nullptr || buffer.size() != 4) return false;
     if (this->Is_NES_ROM(&buffer)) return true;
     if (this->Is_Famicom_ROM(&buffer)) return true;
     return false;
@@ -170,6 +170,7 @@ void Corruptor::Fix_Byte(unsigned char &byte) {
 
     //These bytes should be avoided
     switch (byte) {
+    default: return;
     case 0x00:
     case 0x02:
     case 0x08:
@@ -189,12 +190,10 @@ void Corruptor::Fix_Byte(unsigned char &byte) {
     case 0xD2:
     case 0xF2:
         ++byte;
-    default:
-        return;
     }
 }
 
-bool Corruptor::Is_Byte_Protected(QByteArray *buffer, int pos) {
+bool Corruptor::Is_Byte_Protected(QByteArray *buffer, qint64 pos) {
     assert(buffer);
     if (!this->isNESROM) return false;
     if (pos == 0) {
@@ -266,12 +265,12 @@ bool Corruptor::Is_Third_Byte_Protected(unsigned char byte) {
     }
 }
 
-bool Corruptor::Corrupt_Buffer(QByteArray *buffer, int startingPos, int endingPos) {
+bool Corruptor::Corrupt_Buffer(QByteArray *buffer, qint64 startingPos, qint64 endingPos) {
     assert(buffer);
     assert(endingPos <= buffer->size());
 
     //Perform the Corruption
-    for (int i = startingPos; i < endingPos; i += ((qrand()%((this->settings->incrementMaxNum-this->settings->incrementMinNum)+1))+this->settings->incrementMinNum)) {
+    for (qint64 i = startingPos; i < endingPos; i += ((qrand()%((this->settings->incrementMaxNum-this->settings->incrementMinNum)+1))+this->settings->incrementMinNum)) {
         if (!Is_Byte_Protected(buffer, i)) {
             unsigned char byte = static_cast<unsigned char>(buffer->data()[i]);
             if (this->settings->random) {
@@ -294,7 +293,7 @@ bool Corruptor::Corrupt_Buffer(QByteArray *buffer, int startingPos, int endingPo
 }
 
 void Corruptor::Randomize_Byte(unsigned char &byte) {
-    byte = (qrand()%0x100);
+    byte = static_cast<unsigned char>(qrand()%0x100);
 }
 
 void Corruptor::Add_To_Byte(unsigned char &byte) {
@@ -306,12 +305,12 @@ void Corruptor::Add_To_Byte(unsigned char &byte) {
                 --decrementAmount;
             }
             assert(decrementAmount >= 0);
-            byte = 0xFF - decrementAmount;
+            byte = static_cast<unsigned char>(0xFF-decrementAmount);
         } else {
             byte -= decrementAmount;
         }
     } else { //increment
-        byte = (byte+this->settings->addNum)%0x100;
+        byte = static_cast<unsigned char>((byte+this->settings->addNum)%0x100);
     }
 }
 
@@ -320,13 +319,13 @@ void Corruptor::Shift_Byte(unsigned char &byte) {
         int shiftAmount = 0-this->settings->shiftLeftNum;
         byte = byte>>shiftAmount;
     } else { //shift left
-        byte = byte<<this->settings->shiftLeftNum;
+        byte = static_cast<unsigned char>(byte<<this->settings->shiftLeftNum);
     }
 }
 
 bool Corruptor::Replace_Byte(unsigned char &byte) {
     if (byte == this->settings->replaceOldNum) {
-        byte = this->settings->replaceNewNum;
+        byte = static_cast<unsigned char>(this->settings->replaceNewNum);
         return true;
     }
     return false;

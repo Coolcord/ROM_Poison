@@ -22,11 +22,11 @@ private:
     bool Is_NES_ROM(QByteArray *buffer);
     bool Is_Famicom_ROM(QByteArray *buffer);
     void Fix_Byte(unsigned char &byte);
-    bool Is_Byte_Protected(QByteArray *buffer, int pos);
+    bool Is_Byte_Protected(QByteArray *buffer, qint64 pos);
     bool Is_First_Byte_Protected(unsigned char byte);
     bool Is_Second_Byte_Protected(unsigned char byte);
     bool Is_Third_Byte_Protected(unsigned char byte);
-    bool Corrupt_Buffer(QByteArray *buffer, int startingPos, int endingPos);
+    bool Corrupt_Buffer(QByteArray *buffer, qint64 startingPos, qint64 endingPos);
     void Randomize_Byte(unsigned char &byte);
     void Add_To_Byte(unsigned char &byte);
     void Shift_Byte(unsigned char &byte);
@@ -38,7 +38,7 @@ private:
     QString inFileLocation;
     QString outFileLocation;
     bool isNESROM;
-    int fileSize;
+    qint64 fileSize;
 };
 
 #endif // CORRUPTOR_H

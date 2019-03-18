@@ -7,10 +7,10 @@
 const static int MAX_FILE_SIZE = 999999999;
 
 struct Settings {
-    int startingOffset;
-    int endingOffset;
-    int incrementMinNum;
-    int incrementMaxNum;
+    qint64 startingOffset;
+    qint64 endingOffset;
+    qint64 incrementMinNum;
+    qint64 incrementMaxNum;
     bool increment;
     bool random;
     bool add;

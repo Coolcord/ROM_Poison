@@ -59,7 +59,7 @@ void Main_Window::on_btnGenerate_clicked() {
 
 void Main_Window::on_btnFileLocation_clicked() {
     QString fileLocation = QFileDialog::getOpenFileName(this, "Open a ROM or a File", QApplication::applicationDirPath(), "All files (*.*)");
-    if (fileLocation == NULL || fileLocation.isEmpty()) return;
+    if (fileLocation == nullptr || fileLocation.isEmpty()) return;
     QFileInfo file(fileLocation);
     if (!file.exists()) {
         QMessageBox::critical(this, "ROM Poison",
@@ -79,9 +79,9 @@ void Main_Window::on_btnSaveLocation_clicked() {
     QFileInfo originalFile(this->ui->tbFileLocation->text());
     QString extension = originalFile.fileName().split('.').last().toLower();
     QString filter = "All files (*.*)";
-    if (extension != NULL && !extension.isEmpty()) filter = "*." + extension + ";;" + filter;
+    if (extension != nullptr && !extension.isEmpty()) filter = "*." + extension + ";;" + filter;
     QString saveLocation = QFileDialog::getSaveFileName(this, "Save Location", QApplication::applicationDirPath(), filter);
-    if (saveLocation == NULL || saveLocation.isEmpty()) return;
+    if (saveLocation == nullptr || saveLocation.isEmpty()) return;
     QFileInfo file(saveLocation);
     QDir dir = file.dir();
     if (file.isDir()) {

@@ -57,7 +57,7 @@ int Settings_Profile_Manager::Save_Settings(Settings *settings) {
     assert(this->parent);
     QString profileLocation = this->applicationPath + "/Profiles";
     QString saveLocation = QFileDialog::getSaveFileName(this->parent, "Save Location", profileLocation, "ROM Poison Settings File (*.rps)");
-    if (saveLocation == NULL || saveLocation.isEmpty()) return 1; //the user canceled the save
+    if (saveLocation == nullptr || saveLocation.isEmpty()) return 1; //the user canceled the save
     if (!saveLocation.endsWith(".rps")) saveLocation += ".rps";
     return this->Save_Settings(settings, saveLocation);
 }
@@ -72,13 +72,13 @@ int Settings_Profile_Manager::Load_Settings(Settings *settings) {
     }
     QString profileLocation = this->applicationPath + "/Profiles";
     QString loadLocation = QFileDialog::getOpenFileName(this->parent, "Open a ROM Poison Settings File", profileLocation, "ROM Poison Settings File (*.rps)");
-    if (loadLocation == NULL || loadLocation.isEmpty()) return 1; //the user canceled the load
+    if (loadLocation == nullptr || loadLocation.isEmpty()) return 1; //the user canceled the load
     return this->Read_Settings(settings, loadLocation);
 }
 
 int Settings_Profile_Manager::Read_Settings(Settings *settings, const QString &fileLocation) {
     assert(settings);
-    assert(fileLocation != NULL && !fileLocation.isEmpty());
+    assert(fileLocation != nullptr && !fileLocation.isEmpty());
     QFile file(fileLocation);
     if (!file.exists() || !file.open(QFile::ReadWrite)) return 2;
     QTextStream stream(&file);

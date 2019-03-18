@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <assert.h>
 
-Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings, int fileSize) :
+Corruptor_Settings::Corruptor_Settings(QWidget *parent, Settings *settings, qint64 fileSize) :
     QDialog(parent, Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::Corruptor_Settings) {
     assert(parent);
@@ -166,15 +166,15 @@ void Corruptor_Settings::Set_Replace_Mode(bool replace) {
     this->ui->sbNewByte->setValue(0);
 }
 
-void Corruptor_Settings::Load_Settings(int fileSize) {
-    this->ui->sbStartingOffset->setMaximum(fileSize);
-    this->ui->sbEndingOffset->setMaximum(fileSize);
-    this->ui->sbMinBytes->setMaximum(fileSize);
-    this->ui->sbMaxBytes->setMaximum(fileSize);
-    this->ui->sbStartingOffset->setValue(this->settings->startingOffset);
-    this->ui->sbEndingOffset->setValue(this->settings->endingOffset);
-    this->ui->sbMinBytes->setValue(this->settings->incrementMinNum);
-    this->ui->sbMaxBytes->setValue(this->settings->incrementMaxNum);
+void Corruptor_Settings::Load_Settings(qint64 fileSize) {
+    this->ui->sbStartingOffset->setMaximum(static_cast<int>(fileSize));
+    this->ui->sbEndingOffset->setMaximum(static_cast<int>(fileSize));
+    this->ui->sbMinBytes->setMaximum(static_cast<int>(fileSize));
+    this->ui->sbMaxBytes->setMaximum(static_cast<int>(fileSize));
+    this->ui->sbStartingOffset->setValue(static_cast<int>(this->settings->startingOffset));
+    this->ui->sbEndingOffset->setValue(static_cast<int>(this->settings->endingOffset));
+    this->ui->sbMinBytes->setValue(static_cast<int>(this->settings->incrementMinNum));
+    this->ui->sbMaxBytes->setValue(static_cast<int>(this->settings->incrementMaxNum));
     this->ui->cbIncrement->setChecked(this->settings->increment);
     this->ui->cbRandomByteCorruption->setChecked(this->settings->random);
     if (this->settings->random) {
@@ -214,6 +214,6 @@ void Corruptor_Settings::on_sbMaxBytes_valueChanged(int arg1) {
 }
 
 void Corruptor_Settings::on_btnEndOfFile_clicked() {
-    this->ui->sbEndingOffset->setValue(this->fileSize);
+    this->ui->sbEndingOffset->setValue(static_cast<int>(this->fileSize));
     assert(this->ui->sbStartingOffset->value() <= this->fileSize);
 }

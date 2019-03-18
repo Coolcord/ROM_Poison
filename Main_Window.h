@@ -31,7 +31,7 @@ private:
     void Set_Generate_Enabled(bool enabled);
     Ui::Main_Window *ui;
     Settings *settings;
-    int fileSize;
+    qint64 fileSize;
     bool loaded;
 };
 
